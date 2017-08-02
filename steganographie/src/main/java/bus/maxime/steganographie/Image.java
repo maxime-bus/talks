@@ -1,5 +1,7 @@
 package bus.maxime.steganographie;
 
+import java.util.List;
+
 public class Image {
 
     private final int width;

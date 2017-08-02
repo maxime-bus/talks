@@ -1,4 +1,4 @@
 package bus.maxime.steganographie;
 
-public Pixel {
+public class Pixel {
 }
