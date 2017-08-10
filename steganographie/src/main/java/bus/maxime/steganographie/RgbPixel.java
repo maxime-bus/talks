@@ -2,37 +2,61 @@ package bus.maxime.steganographie;
 
 public class RgbPixel {
 
-    private final byte red;
-    private final byte green;
-    private final byte blue;
+    private int alpha;
+    private int red;
+    private int green;
+    private int blue;
 
-    public RgbPixel(byte red, byte green, byte blue) {
+    public RgbPixel(int alpha, int red, int green, int blue) {
+        this.alpha = alpha;
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
 
-    public static RgbPixel fromInteger(int pixelAsInteger) {
-        byte[] channels = intToByteArray(pixelAsInteger);
+    public static RgbPixel fromInteger(int color) {
+        int blue = color & 0xFF;
+        int green = (color & 0xFF00) >> 8;
+        int red = (color & 0xFF0000) >> 16;
+        int alpha = (color & 0xFF000000) >>> 24;
 
-        return new RgbPixel(channels[0], channels[1], channels[2]);
+        return new RgbPixel(alpha, red, green, blue);
     }
 
-    public RgbPixel hidePixel(RgbPixel rgbPixelToHide, int depth) {
-        byte red = (byte) (this.red & (rgbPixelToHide.red & 0b0000001));
-        byte green = (byte) (this.green & (rgbPixelToHide.green & 0b00000001));
-        byte blue = (byte) (this.blue & (rgbPixelToHide.blue & 0b00000001));
+    public RgbPixel hidePixel(RgbPixel rgbPixelToHide) {
+        int red = (this.red >> 1) << 1 | (rgbPixelToHide.red >> 7);
+        int green = (this.green >> 1) << 1 | (rgbPixelToHide.green >> 7);
+        int blue = (this.blue >> 1) << 1 | (rgbPixelToHide.blue >> 7);
 
-        return new RgbPixel(red, green, blue);
+        return new RgbPixel(alpha, red, green, blue);
+    }
+
+    public RgbPixel unhide() {
+        int red = (this.red & 0x01) << 7;
+        int green = (this.green & 0x01) << 7;
+        int blue = (this.blue & 0x01) << 7;
+
+        return new RgbPixel(alpha, red, green, blue);
     }
 
     public int toInteger() {
-        return fromFourUnsignedBytesToInt(new byte[]{this.red, this.green, this.blue, Byte.MAX_VALUE});
+        return blue + (green << 8) + (red << 16) + (alpha << 24);
     }
 
+    public int getAlpha() {
+        return alpha;
+    }
 
-    private static int fromFourUnsignedBytesToInt(byte[] bytes) {
-        return (bytes[3] << 24 & ) | (bytes[2] << 16 & 0xFFFFFF) | (bytes[1] << 8 & 0xFFFF) | bytes[0] & 0xFF;
+    public int getRed() {
+        return red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
     }
 
     @Override
@@ -42,16 +66,5 @@ public class RgbPixel {
                 ", green=" + String.format("0x%02x", green) +
                 ", blue=" + String.format("0x%02x", blue) +
                 '}';
-    }
-
-    private static byte[] intToByteArray(int integer) {
-        byte[] bytes = new byte[4];
-
-        bytes[3] = (byte) (integer >>> 24);
-        bytes[2] = (byte) (integer >>> 16);
-        bytes[1] = (byte) (integer >>> 8);
-        bytes[0] = (byte) integer;
-
-        return bytes;
     }
 }
