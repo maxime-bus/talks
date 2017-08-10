@@ -23,18 +23,19 @@ public class RgbPixel {
         return new RgbPixel(alpha, red, green, blue);
     }
 
-    public RgbPixel hidePixel(RgbPixel rgbPixelToHide) {
-        int red = (this.red >> 1) << 1 | (rgbPixelToHide.red >> 7);
-        int green = (this.green >> 1) << 1 | (rgbPixelToHide.green >> 7);
-        int blue = (this.blue >> 1) << 1 | (rgbPixelToHide.blue >> 7);
+    public RgbPixel hidePixel(RgbPixel rgbPixelToHide, int depth) {
+        int red = (this.red >> depth) << depth | (rgbPixelToHide.red >> (8 - depth));
+        int green = (this.green >> depth) << depth | (rgbPixelToHide.green >> (8 - depth));
+        int blue = (this.blue >> depth) << depth | (rgbPixelToHide.blue >> (8 - depth));
 
         return new RgbPixel(alpha, red, green, blue);
     }
 
-    public RgbPixel unhide() {
-        int red = (this.red & 0x01) << 7;
-        int green = (this.green & 0x01) << 7;
-        int blue = (this.blue & 0x01) << 7;
+    public RgbPixel extract(int depth) {
+        int mask = getMask(depth);
+        int red = (this.red & mask) << (8 - depth);
+        int green = (this.green & mask) << (8 - depth);
+        int blue = (this.blue & mask) << (8 - depth);
 
         return new RgbPixel(alpha, red, green, blue);
     }
@@ -57,6 +58,16 @@ public class RgbPixel {
 
     public int getBlue() {
         return blue;
+    }
+
+    private int getMask(int numberOfBitsSet) {
+        int result = 1;
+
+        for (int i = 1; i < numberOfBitsSet; i++) {
+            result = (result << 1) | 1;
+        }
+
+        return result;
     }
 
     @Override

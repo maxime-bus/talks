@@ -44,7 +44,7 @@ public class RgbPixelTest {
         RgbPixel source = new RgbPixel(0xFF, 0xFE, 0xA1, 0xE5);
         RgbPixel toHide = new RgbPixel(0xFF, 0x80, 0x00, 0x36);
 
-        RgbPixel finalPixel = source.hidePixel(toHide);
+        RgbPixel finalPixel = source.hidePixel(toHide, 1);
 
         assertThat(finalPixel.getAlpha()).as("alpha channel").isEqualTo(0xFF);
         assertThat(finalPixel.getRed()).as("red channel").isEqualTo(0xFF);
@@ -53,13 +53,25 @@ public class RgbPixelTest {
     }
 
     @Test
-    public void i_can_unhide_pixel() throws Exception {
+    public void i_can_extract_pixel() throws Exception {
         RgbPixel source = new RgbPixel(0xFF, 0xFF, 0xA0, 0xE4);
 
-        RgbPixel unhidden = source.unhide();
+        RgbPixel unhidden = source.extract(1);
 
         assertThat(unhidden.getAlpha()).as("alpha channel").isEqualTo(0xFF);
         assertThat(unhidden.getRed()).as("red channel").isEqualTo(0x80);
+        assertThat(unhidden.getGreen()).as("green channel").isEqualTo(0x00);
+        assertThat(unhidden.getBlue()).as("blue channel").isEqualTo(0x00);
+    }
+
+    @Test
+    public void i_can_extract_pixel_with_a_depth_greater_than_1() throws Exception {
+        RgbPixel source = new RgbPixel(0xFF, 0xFF, 0xA0, 0xE4);
+
+        RgbPixel unhidden = source.extract(2);
+
+        assertThat(unhidden.getAlpha()).as("alpha channel").isEqualTo(0xFF);
+        assertThat(unhidden.getRed()).as("red channel").isEqualTo(0xC0);
         assertThat(unhidden.getGreen()).as("green channel").isEqualTo(0x00);
         assertThat(unhidden.getBlue()).as("blue channel").isEqualTo(0x00);
     }

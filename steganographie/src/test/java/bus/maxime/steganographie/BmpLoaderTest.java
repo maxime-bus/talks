@@ -1,6 +1,8 @@
 package bus.maxime.steganographie;
 
 
+import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -25,18 +27,21 @@ public class BmpLoaderTest {
 
         BufferedImage outputImg = new BufferedImage(imgTarget.getWidth(), imgTarget.getHeight(), imgTarget.getType());
 
-        for (int i = 0; i < imgTarget.getWidth(); i++) {
-            for (int j = 0; j < imgTarget.getHeight(); j++) {
-                RgbPixel targetPixel = RgbPixel.fromInteger(imgTarget.getRGB(i, j));
-                RgbPixel pixelToHide = RgbPixel.fromInteger(imgToHide.getRGB(i, j));
-
-                RgbPixel finalPixel = targetPixel.hidePixel(pixelToHide);
-
-                outputImg.setRGB(i, j, finalPixel.toInteger());
-            }
-        }
+//        hide(imgTarget, imgToHide, outputImg);
 
         ImageIO.write(outputImg, "bmp", new File("/home/engineer/result.bmp"));
+    }
+
+    private void hide(Image imgTarget, Image imgToHide, WritableImage outputImg) {
+        for (int i = 0; i < imgTarget.getWidth(); i++) {
+            for (int j = 0; j < imgTarget.getHeight(); j++) {
+                RgbPixel targetPixel = RgbPixel.fromInteger(imgTarget.getPixelReader().getArgb(i, j));
+                RgbPixel pixelToHide = RgbPixel.fromInteger(imgToHide.getPixelReader().getArgb(i, j));
+                RgbPixel finalPixel = targetPixel.hidePixel(pixelToHide, 1);
+
+                outputImg.getPixelWriter().setArgb(i, j, finalPixel.toInteger());
+            }
+        }
     }
 
     @Test
@@ -45,15 +50,19 @@ public class BmpLoaderTest {
 
         BufferedImage extracted = new BufferedImage(image.getWidth(), image.getHeight(), image.getType());
 
+        extract(image, extracted);
+
+        ImageIO.write(extracted, "bmp", new File("/home/engineer/extracted.bmp"));
+    }
+
+    private void extract(BufferedImage image, BufferedImage extracted) {
         for (int i = 0; i < extracted.getWidth(); i++) {
             for (int j = 0; j < extracted.getHeight(); j++) {
                 RgbPixel targetPixel = RgbPixel.fromInteger(image.getRGB(i, j));
-                RgbPixel unhide = targetPixel.unhide();
+                RgbPixel unhide = targetPixel.extract(1);
 
                 extracted.setRGB(i, j, unhide.toInteger());
             }
         }
-
-        ImageIO.write(extracted, "bmp", new File("/home/engineer/extracted.bmp"));
     }
 }
