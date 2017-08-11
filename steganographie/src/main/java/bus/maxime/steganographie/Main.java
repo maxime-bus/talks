@@ -15,11 +15,11 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("toto.fxml"));
+        Parent root = FXMLLoader.load(Thread.currentThread().getContextClassLoader().getResource("layout.fxml"));
 
         Scene scene = new Scene(root);
 
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("Steganography Demo");
         stage.setScene(scene);
         stage.show();
     }
