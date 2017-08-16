@@ -1,15 +1,20 @@
 package bus.maxime.steganographie;
 
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class MainController {
 
@@ -30,14 +35,39 @@ public class MainController {
     @FXML
     public Slider slider;
 
+    @FXML
+    private CheckBox bit8;
+
+    @FXML
+    private CheckBox bit7;
+
+    @FXML
+    private CheckBox bit6;
+
+    @FXML
+    private CheckBox bit5;
+
+    @FXML
+    private CheckBox bit4;
+
+    @FXML
+    private CheckBox bit3;
+
+    @FXML
+    private CheckBox bit2;
+
+    @FXML
+    private CheckBox bit1;
+
+    @FXML
+    private Canvas canvas;
+
     public MainController() {
         this.fileChooser = new FileChooser();
     }
 
     public void initialize() {
         slider.valueProperty().addListener((observable, oldValue, depth) -> {
-            System.out.println();
-
             Image imageSource = sourceImageView.getImage();
 
             WritableImage outputImg = new WritableImage((int) imageSource.getWidth(), (int) imageSource.getHeight());
@@ -48,6 +78,33 @@ public class MainController {
 
             resultImageView.setImage(outputImg);
             extractedImageView.setImage(extractImg);
+        });
+
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        gc.setFill(Color.color(0, 0, 0));
+
+        gc.fillRect(0, 0, 200, 200);
+
+        Arrays.asList(bit1, bit2, bit3, bit4, bit5, bit6, bit7, bit8).stream().forEach(checkbox -> {
+            checkbox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+
+                int color = booleanToInt(bit8.isSelected()) << 7
+                        | (booleanToInt(bit7.isSelected()) << 6)
+                        | (booleanToInt(bit6.isSelected()) << 5)
+                        | (booleanToInt(bit5.isSelected()) << 4)
+                        | (booleanToInt(bit4.isSelected()) << 3)
+                        | (booleanToInt(bit3.isSelected()) << 2)
+                        | (booleanToInt(bit2.isSelected()) << 1)
+                        | booleanToInt(bit1.isSelected());
+
+                System.out.println(Integer.toBinaryString(color));
+
+                System.out.println(color);
+                gc.setFill(Color.color(color/256.0, color/256.0, color/256.0));
+
+                gc.fillRect(0, 0, 200, 200);
+            });
         });
     }
 
@@ -92,5 +149,9 @@ public class MainController {
                 extracted.getPixelWriter().setArgb(i, j, unhide.toInteger());
             }
         }
+    }
+
+    private int booleanToInt(boolean b) {
+        return b ? 1 : 0;
     }
 }
