@@ -6,13 +6,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1290.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.maxime.steganographie.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bus.maxime.steganographie.MainController">
    <children>
-      <TabPane prefHeight="776.0" prefWidth="1290.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="500.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="MSB - LSB">
                <content>
-                  <Pane prefHeight="200.0" prefWidth="200.0">
+                  <Pane prefHeight="439.0" prefWidth="748.0">
                      <children>
                         <CheckBox fx:id="bit8" layoutX="76.0" layoutY="135.0" mnemonicParsing="false" />
                         <Label layoutX="84.0" layoutY="164.0" text="8" />
@@ -40,41 +40,54 @@
                </content></Tab>
           <Tab text="Demo">
                <content>
-                  <Pane prefHeight="776.0" prefWidth="1290.0">
-                     <children>
-                        <Pane layoutX="14.0" layoutY="36.0" prefHeight="321.0" prefWidth="393.0" style="-fx-border-color: black;">
-                           <children>
-                              <ImageView fx:id="sourceImageView" fitHeight="295.0" fitWidth="366.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
-                        <Slider fx:id="slider" blockIncrement="1.0" layoutX="104.0" layoutY="446.0" majorTickUnit="1.0" max="8.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-                        <Button layoutX="14.0" layoutY="369.0" mnemonicParsing="false" onMouseClicked="#selectSourceImage" text="Open..." />
-                        <Button layoutX="449.0" layoutY="369.0" mnemonicParsing="false" onMouseClicked="#selectImageToHide" text="Open..." />
-                        <Label layoutX="14.0" layoutY="14.0" text="Source image" />
-                        <Label layoutX="449.0" layoutY="14.0" text="Image to hide" />
-                        <Label layoutX="883.0" layoutY="14.0" text="Result" />
-                        <Label layoutX="14.0" layoutY="449.0" prefWidth="127.0" text="Bits to use" />
-                        <Label layoutX="883.0" layoutY="374.0" text="Extracted hidden image" />
-                        <Label layoutX="422.0" layoutY="189.0" text="+" />
-                        <Label layoutX="1069.0" layoutY="374.0" rotate="90.0" text="=&gt;" />
-                        <Label layoutX="847.0" layoutY="189.0" text="=&gt;" />
-                        <Pane layoutX="449.0" layoutY="36.0" prefHeight="321.0" prefWidth="393.0" style="-fx-border-color: black;">
-                           <children>
-                              <ImageView fx:id="toHideImageView" fitHeight="295.0" fitWidth="366.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
-                        <Pane layoutX="883.0" layoutY="36.0" prefHeight="321.0" prefWidth="393.0" style="-fx-border-color: black;">
-                           <children>
-                              <ImageView fx:id="resultImageView" fitHeight="295.0" fitWidth="366.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
-                        <Pane layoutX="883.0" layoutY="405.0" prefHeight="321.0" prefWidth="393.0" style="-fx-border-color: black;">
-                           <children>
-                              <ImageView fx:id="extractedImageView" fitHeight="295.0" fitWidth="366.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
+                  <Accordion>
+                    <panes>
+                      <TitledPane animated="false" text="Images de travail">
+                           <content>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="21.0" text="Source image" />
+                                    <Pane layoutX="14.0" layoutY="57.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: black;">
+                                       <children>
+                                          <ImageView fx:id="sourceImageView" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </Pane>
+                                    <Button layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onMouseClicked="#selectSourceImage" text="Open..." />
+                                    <Button layoutX="399.0" layoutY="374.0" mnemonicParsing="false" onMouseClicked="#selectImageToHide" text="Open..." />
+                                    <Label layoutX="399.0" layoutY="21.0" text="Image to hide" />
+                                    <Pane layoutX="399.0" layoutY="57.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: black;">
+                                       <children>
+                                          <ImageView fx:id="toHideImageView" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </Pane>
+                           </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Résultat">
+                           <content>
+                              <Pane prefHeight="307.0" prefWidth="534.0">
+                                 <children>
+                                    <Label layoutX="20.0" layoutY="16.0" text="Result" />
+                                    <Label layoutX="248.0" layoutY="362.0" prefWidth="127.0" text="Bits to use" />
+                                    <Label layoutX="477.0" layoutY="16.0" text="Extracted hidden image" />
+                                    <Slider fx:id="slider" blockIncrement="1.0" layoutX="329.0" layoutY="362.0" majorTickUnit="1.0" max="8.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+                                    <Pane layoutX="20.0" layoutY="38.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: black;">
+                                       <children>
+                                          <ImageView fx:id="resultImageView" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </Pane>
+                                    <Pane layoutX="473.0" layoutY="38.0" prefHeight="300.0" prefWidth="300.0" style="-fx-border-color: black;">
+                                       <children>
+                                          <ImageView fx:id="extractedImageView" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </Pane>
+                           </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
                </content>
             </Tab>
         </tabs>
