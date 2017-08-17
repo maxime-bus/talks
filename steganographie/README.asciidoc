@@ -1,0 +1,75 @@
+= Stéganographie, keskecé ?
+
+Selon wikipédia, la *stéganographie* est l'art de la dissimulation d'un message dans un autre message. Concrètement, le support qui véhicule le message caché est lisible par tous, mais il n'est pas évident de deviner qu'il s'agit d'une apparence trompeuse.
+
+Elle diffère de la cryptographie car cette dernière chiffre le message afin de le rendre illisible. Les 2 techniques sont cependant utilisées conjointement.
+
+= Quelques exemples de stéganographie
+
+. Écrire un message à l'encre invisible (citron par exemple) sur un journal. En mettant le journal au dessus d'une source de chaleur, le message invisible est révélé;
+. Gravure au laser invisible à l'oeil nu;
+. Lire une phrase sur deux dans un texte;
+. Prendre les premières lettres de chaque mot, et les espaces après chaque point;
+. Pierre Aparicio qui s'amuse à écrire des messages en blanc dans sa signature :);
+. Le texte de départ de Johan (avec des prénoms dissimulés) :);
+
+http://apprendre-en-ligne.net/crypto/stegano/encre.html
+
+Mais je vais bien ! Allez-y, essayez de deviner qui a commis le crime ! 
+Xavier pourrait peut-être vous aider. Il est friand d'enquête, et habite Madagascar.
+En route alors, je vous souhaite bon courage !
+
+Dans ce texte se trouve le nom de la personne qui a commis le crime :). (On est d'accord, le texte est pourri :p)
+
+= Usages dans la vie courante
+
+Watermarking (gravure laser etc.)
+
+= Cas pratique, la stéganographie appliquée à l'image
+
+== Rappel sur MSB/LSB
+
+    MSB                   LSB
+     -- -- -- -- -- -- -- --
+    |  |  |  |  |  |  |  |  |
+     -- -- -- -- -- -- -- --
+     8  7  6  5  4  3  2  1
+
+== Explication de la technique
+
+Exemple pour des pixels en niveau de gris :
+
+                            MSB                   LSB
+                             -- -- -- -- -- -- -- --
+    Pixel source            |1 |1 |0 |0 |1 |1 |0 |1 |
+                             -- -- -- -- -- -- -- --
+                             8  7  6  5  4  3  2  1
+                                                  ^
+                                                  |
+                                _________________/ 
+                               /   
+                              |
+                              |
+                            MSB                   LSB
+                             -- -- -- -- -- -- -- --
+    Pixel à cacher          |0 |0 |0 |0 |0 |0 |0 |1 |
+                             -- -- -- -- -- -- -- --
+                             8  7  6  5  4  3  2  1
+
+                             =
+
+                            MSB                   LSB
+                             -- -- -- -- -- -- -- --
+    Pixel résultant         |1 |1 |0 |0 |1 |1 |0 |0 |
+                             -- -- -- -- -- -- -- --
+                             8  7  6  5  4  3  2  1
+
+== Limites de la technique
+
+=== Sensible à la compression
+
+Une image passant du BMP au JPEG peut perdre de l'information.
+
+=== Techique très connue 
+
+C'est le hello world, il n'y a qu'à voir le nombre d'articles qui la présentent. Elle est facilement détectable, la technique n'est pas compliquée.
