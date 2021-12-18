@@ -7,25 +7,47 @@
     <groupId>bus.maxime</groupId>
     <artifactId>talks</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+
     <modules>
         <module>steganographie</module>
     </modules>
 
     <packaging>pom</packaging>
 
+    <properties>
+        <!-- prod -->
+        <javafx.version>17.0.0.1</javafx.version>
+
+        <!-- tests -->
+        <junit.version>4.12</junit.version>
+        <assertj-core.version>3.0.0</assertj-core.version>
+
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.12</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.0.0</version>
+                <version>${assertj-core.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx</artifactId>
+                <version>${javafx.version}</version>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -36,9 +58,25 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <source>1.8</source>
-                        <target>1.8</target>
+                        <source>${maven.compiler.source}</source>
+                        <target>${maven.compiler.target}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>bus.maxime.steganographie.Main</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
                     </configuration>
                 </plugin>
             </plugins>
