@@ -1,4 +1,4 @@
-package bus.maxime.steganographie;
+package bus.maxime.steganographie.domain;
 
 public class RgbPixel {
 

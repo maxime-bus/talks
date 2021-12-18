@@ -1,5 +1,6 @@
 package bus.maxime.steganographie;
 
+import bus.maxime.steganographie.domain.RgbPixel;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,5 +1,6 @@
 package bus.maxime.steganographie;
 
+import bus.maxime.steganographie.domain.RgbPixel;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,7 +15,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 public class MainController {
